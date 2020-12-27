@@ -1,5 +1,6 @@
 package com.nyles.game.States;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nyles.game.FirstFlappyGame;
@@ -21,12 +22,15 @@ public class MenuState extends State {
 
     @Override
     public void handleInput() {
-
+        if(Gdx.input.isTouched()){
+            gsm.set(new PlayState(gsm));
+            dispose();
+        }
     }
 
     @Override
     public void update(float dt) {
-
+        handleInput();
     }
 
     /**
@@ -42,11 +46,13 @@ public class MenuState extends State {
         sb.end();
     }
 
+    /**
+     * Removes unnecessary rendering of images once a game state is no longer being used
+     */
     @Override
     public void dispose() {
         background.dispose();
         playButton.dispose();
     }
 
-    // Android Studio to Git Hub test
 }

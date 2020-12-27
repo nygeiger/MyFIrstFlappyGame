@@ -23,14 +23,14 @@ public abstract class State {
 
     protected GameStateManager gsm;
 
-    protected State(GameStateManager gsm) {
+    public State(GameStateManager gsm) {
         this.gsm = gsm;
         cam = new OrthographicCamera();
         mouse = new Vector3();
     }
 
 
-    protected abstract void handleInput();
+    public abstract void handleInput();
 
     /**
      * @param dt difference in time between frames renderd
