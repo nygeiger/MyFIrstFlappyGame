@@ -6,7 +6,7 @@ import com.nyles.game.FirstFlappyGame;
 import java.util.Stack;
 
 /**
- * Created By Nyles Geiegr 12/25/2020
+ * Created By Nyles Geieger 12/25/2020
  */
 public class GameStateManager {
 
@@ -37,6 +37,10 @@ public class GameStateManager {
         states.push(state);
     }
 
+    /**
+     *Calls the update function on the state at the top of the stack
+     * @param dt the time span between the current frame and last frame in seconds
+     */
     public void update(float dt){
         states.peek().update(dt);
     }

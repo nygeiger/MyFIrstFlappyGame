@@ -1,32 +1,35 @@
 package com.nyles.game.States;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nyles.game.FirstFlappyGame;
-import com.nyles.game.Sprites.PlayerModelNormal;
+import com.nyles.game.Sprites.PlayerModel;
 
 /**
  * Describes the programs behavior while the game is in action
  */
 public class PlayState extends State{
 
-    private PlayerModelNormal normalSpidey;
+    private PlayerModel normalSpidey;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        normalSpidey = new PlayerModelNormal(50, 100);
+        normalSpidey = new PlayerModel(50, 100);
         cam.setToOrtho(false, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
     }
 
     @Override
     public void handleInput() {
-
+        if(Gdx.input.justTouched()){
+            normalSpidey.jump();
+        }
     }
 
     @Override
     public void update(float dt) {
         handleInput();
         normalSpidey.update(dt);
+
     }
 
     /**
@@ -37,7 +40,7 @@ public class PlayState extends State{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(normalSpidey.getTexture(), normalSpidey.getPosition().x, normalSpidey.getPosition().y, 65, 65);
+        sb.draw(normalSpidey.getNormalTexture(), normalSpidey.getPosition().x, normalSpidey.getPosition().y, 65, 65);
         sb.end();
     }
 
