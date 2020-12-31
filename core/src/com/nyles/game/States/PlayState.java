@@ -11,12 +11,12 @@ import com.nyles.game.Sprites.PlayerModel;
  */
 public class PlayState extends State{
 
-    private PlayerModel normalSpidey;
+    private PlayerModel spideyModel;
     private Texture background;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        normalSpidey = new PlayerModel(50, 100);
+        spideyModel = new PlayerModel(50, 100);
         background = new Texture("backgoundCitywithStars.png");
         cam.setToOrtho(false, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
     }
@@ -24,14 +24,14 @@ public class PlayState extends State{
     @Override
     public void handleInput() {
         if(Gdx.input.justTouched()){
-            normalSpidey.jump();
+            spideyModel.jump();
         }
     }
 
     @Override
     public void update(float dt) {
         handleInput();
-        normalSpidey.update(dt);
+        spideyModel.update(dt);
 
     }
 
@@ -43,8 +43,8 @@ public class PlayState extends State{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, 0, 0, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
-        sb.draw(normalSpidey.getNormalTexture(), normalSpidey.getPosition().x, normalSpidey.getPosition().y, 65, 65);
+        sb.draw(background, cam.position.x-(cam.viewportWidth/2), 0, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
+        sb.draw(spideyModel.getNormalTexture(), spideyModel.getPosition().x, spideyModel.getPosition().y, 65, 65);
         sb.end();
     }
 

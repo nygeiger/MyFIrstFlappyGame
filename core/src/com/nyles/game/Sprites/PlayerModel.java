@@ -5,17 +5,19 @@ import com.badlogic.gdx.math.Vector3;
 
 public class PlayerModel {
 
-    private static final int JUMP = 250;
+    private static final int JUMP = 90;
     private static final int GRAVITY = -15;
     private Vector3 position;
     private Vector3 velocity;
     private Texture normalSpidey;
+    private Texture jumpingSpidey;
 
 
     public PlayerModel(int x, int y){
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0,0,0);
         normalSpidey = new Texture("8BitMilesMoralesNormal.png");
+        jumpingSpidey = new Texture("8BitSpiderManUp.png");
     }
 
     /**
@@ -30,6 +32,10 @@ public class PlayerModel {
         velocity.scl(dt);
         position.add(0, velocity.y, 0);
         velocity.scl(1/dt);
+        if (position.y < 0){
+            position.y = 0;
+            velocity.y=0;
+        }
     }
 
     public void jump(){
