@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.nyles.game.FirstFlappyGame;
 import com.nyles.game.Sprites.PlayerModel;
+import com.nyles.game.Sprites.obstacleBuilding;
 
 /**
  * Describes the programs behavior while the game is in action
@@ -12,11 +13,13 @@ import com.nyles.game.Sprites.PlayerModel;
 public class PlayState extends State{
 
     private PlayerModel spideyModel;
+    private obstacleBuilding buildings;
     private Texture background;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
         spideyModel = new PlayerModel(50, 100);
+        buildings = new obstacleBuilding(100);
         background = new Texture("backgoundCitywithStars.png");
         cam.setToOrtho(false, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
     }
@@ -45,6 +48,8 @@ public class PlayState extends State{
         sb.begin();
         sb.draw(background, cam.position.x-(cam.viewportWidth/2), 0, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
         sb.draw(spideyModel.getNormalTexture(), spideyModel.getPosition().x, spideyModel.getPosition().y, 65, 65);
+        sb.draw(buildings.getTopBuilding(), buildings.getPostopBuilding().x, buildings.getPostopBuilding().y, 80, buildings.getTopBuilding().getHeight());
+        sb.draw(buildings.getBottomBuilding(), buildings.getPosBottomBuilding().x, buildings.getPosBottomBuilding().y, 80, buildings.getBottomBuilding().getHeight());
         sb.end();
     }
 
