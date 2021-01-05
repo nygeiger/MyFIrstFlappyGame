@@ -15,7 +15,7 @@ public class PlayerModel {
     private Vector3 position;
     private Vector3 velocity;
 
-    private Rectangle bounds;
+    private Rectangle bounds; //TODO make hit-box more accurate
     private Texture normalSpidey;
     private Texture jumpingSpidey;
 
@@ -27,7 +27,6 @@ public class PlayerModel {
         normalSpidey = new Texture("8BitMilesMoralesNormal.png");
         jumpingSpidey = new Texture("8BitSpiderManUp.png");
 
-        System.out.println("Spidey width: " + normalSpidey.getWidth() +"\n Spidey Height: " + normalSpidey.getHeight());
         bounds = new Rectangle( position.x, position.y, 30, 30);
     }
 
@@ -56,6 +55,11 @@ public class PlayerModel {
         velocity.y = JUMP;
         position.add(0,velocity.y, 0);
 
+    }
+
+    public void dispose(){
+        normalSpidey.dispose();
+        jumpingSpidey.dispose();
     }
 
     public Rectangle getBounds(){

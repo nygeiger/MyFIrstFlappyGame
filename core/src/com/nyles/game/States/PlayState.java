@@ -3,10 +3,11 @@ package com.nyles.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 import com.nyles.game.FirstFlappyGame;
 import com.nyles.game.Sprites.PlayerModel;
 import com.nyles.game.Sprites.ObstacleBuilding;
+
+import java.util.ArrayList;
 
 /**
  * Describes the programs behavior while the game is in action
@@ -20,7 +21,7 @@ public class PlayState extends State{
     private ObstacleBuilding buildings;
     private Texture background;
 
-    private Array<ObstacleBuilding> buildingsArray;
+    private ArrayList<ObstacleBuilding> buildingsArray;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
@@ -28,7 +29,7 @@ public class PlayState extends State{
         buildings = new ObstacleBuilding(100);
         background = new Texture("backgoundCitywithStars.png");
         cam.setToOrtho(false, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
-        buildingsArray = new Array<ObstacleBuilding>();
+        buildingsArray = new ArrayList<ObstacleBuilding>();
 
         for (int i = 1; i <= OBSTACLE_COUNT; i++){
             buildingsArray.add(new ObstacleBuilding(i *(SPACING + ObstacleBuilding.OBSTACLE_WIDTH)));
@@ -60,6 +61,7 @@ public class PlayState extends State{
             /**
              * checks for collision between playerModel and buildings
              */
+            //TODO Implementation is not optimal for scaling
             if (building.collides(spideyModel.getBounds())){
                 gsm.set(new MenuState(gsm));
             }
@@ -90,8 +92,13 @@ public class PlayState extends State{
     @Override
     public void dispose() {
         background.dispose();
-        buildings.getTopBuilding().dispose();
-        buildings.getBottomBuilding().dispose();
-        spideyModel.getNormalTexture().dispose();
+        buildings.dispose();
+
+        for (ObstacleBuilding building: buildingsArray){
+            building.dispose();
+        }
+
+
+        spideyModel.dispose();
     }
 }

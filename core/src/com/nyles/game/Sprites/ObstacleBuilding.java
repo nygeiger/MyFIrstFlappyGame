@@ -14,9 +14,9 @@ public class ObstacleBuilding {
     private static final int OBSTACLE_GAP = 140;
     private static final int LOWEST_OPENING = 120;
 
-    private Texture topBuilding, bottomBuilding;
+    private Texture topBuilding, bottomBuilding; //TODO refactor into a static reference to minimize obstacle textures created
     private Vector2 posTopBuilding, posBottomBuilding;
-    private Rectangle boundsTop, boundsBottom;
+    private Rectangle boundsTop, boundsBottom; //TODO make hit-boxes more accurate
     private Random rand;
 
     /**
@@ -58,6 +58,11 @@ public class ObstacleBuilding {
 
     public boolean collides(Rectangle player){
         return player.overlaps(boundsTop) || player.overlaps(boundsBottom);
+    }
+
+    public void dispose (){
+        topBuilding.dispose();
+        bottomBuilding.dispose();
     }
 
     public Texture getTopBuilding() {

@@ -24,7 +24,7 @@ public class GameStateManager {
      * remove current state
      */
     public void pop(){
-        states.pop();
+        states.pop().dispose();
     }
 
     /**
@@ -33,7 +33,7 @@ public class GameStateManager {
      * the state to be initialiozed
      */
     public void set(State state){
-        states.pop();
+        states.pop().dispose();
         states.push(state);
     }
 

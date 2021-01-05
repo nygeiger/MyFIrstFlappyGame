@@ -42,6 +42,9 @@ public abstract class State {
      */
     public abstract void render(SpriteBatch sb);
 
+    /**
+     * Used to prevent Memory leaks
+     */
     public abstract void dispose();
 
 
