@@ -19,9 +19,6 @@ public class PlayState extends State{
     private PlayerModel spideyModel;
     private ObstacleBuilding buildings;
     private Texture background;
-    private Texture playerHitBox; // for hitbox testing
-    private Texture topBuildingHitBox; // for hitbox testing
-    private Texture bottomBuildingHitBox; // for hitbox testing
 
     private Array<ObstacleBuilding> buildingsArray;
 
@@ -36,10 +33,6 @@ public class PlayState extends State{
         for (int i = 1; i <= OBSTACLE_COUNT; i++){
             buildingsArray.add(new ObstacleBuilding(i *(SPACING + ObstacleBuilding.OBSTACLE_WIDTH)));
         }
-
-        playerHitBox = new Texture("BlueSquare.png");
-        topBuildingHitBox = new Texture("RedSquare.png");
-        bottomBuildingHitBox = new Texture("RedSquare.png");
 
     }
 
@@ -88,13 +81,8 @@ public class PlayState extends State{
 
         for (ObstacleBuilding building: buildingsArray){
             sb.draw(building.getTopBuilding(), building.getPostopBuilding().x, building.getPostopBuilding().y, 80, building.getTopBuilding().getHeight());
-            sb.draw(topBuildingHitBox, building.getBoundsTop().x, building.getBoundsTop().y, building.getBoundsTop().width, building.getBoundsTop().height); // for hitbox testing
-
             sb.draw(building.getBottomBuilding(), building.getPosBottomBuilding().x, building.getPosBottomBuilding().y, 75, building.getBottomBuilding().getHeight());
-            sb.draw(bottomBuildingHitBox, building.getBoundsBottom().x, building.getBoundsBottom().y, building.getBoundsBottom().width, building.getBoundsBottom().height); // for hitbox testing
         }
-
-        sb.draw(playerHitBox, spideyModel.getBounds().x, spideyModel.getBounds().y, spideyModel.getBounds().width, spideyModel.getBounds().height);
 
         sb.end();
     }
@@ -105,6 +93,5 @@ public class PlayState extends State{
         buildings.getTopBuilding().dispose();
         buildings.getBottomBuilding().dispose();
         spideyModel.getNormalTexture().dispose();
-        cam.setToOrtho(false, FirstFlappyGame.WIDTH, FirstFlappyGame.HEIGHT);
     }
 }
