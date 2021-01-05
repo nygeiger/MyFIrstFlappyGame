@@ -19,6 +19,10 @@ public class PlayState extends State{
     private PlayerModel spideyModel;
     private ObstacleBuilding buildings;
     private Texture background;
+    private Texture playerHitBox; // for hitbox testing
+    private Texture topBuildingHitBox; // for hitbox testing
+    private Texture bottomBuildingHitBox; // for hitbox testing
+
     private Array<ObstacleBuilding> buildingsArray;
 
     public PlayState(GameStateManager gsm) {
@@ -32,6 +36,11 @@ public class PlayState extends State{
         for (int i = 1; i <= OBSTACLE_COUNT; i++){
             buildingsArray.add(new ObstacleBuilding(i *(SPACING + ObstacleBuilding.OBSTACLE_WIDTH)));
         }
+
+        playerHitBox = new Texture("BlueSquare.png");
+        topBuildingHitBox = new Texture("RedSquare.png");
+        bottomBuildingHitBox = new Texture("RedSquare.png");
+
     }
 
     @Override
@@ -55,6 +64,9 @@ public class PlayState extends State{
             if (cam.position.x - (cam.viewportWidth/2) > (building.getPostopBuilding().x+ building.getTopBuilding().getWidth())){
                 building.reposition(building.getPostopBuilding().x + (ObstacleBuilding.OBSTACLE_WIDTH + SPACING) * OBSTACLE_COUNT);
             }
+            if (building.collides(spideyModel.getBounds())){
+                gsm.set(new PlayState(gsm));
+            }
         }
 
         cam.update(); // must be called whenever the position of the camera is changed
@@ -70,13 +82,17 @@ public class PlayState extends State{
         sb.begin();
         sb.draw(background, cam.position.x-(cam.viewportWidth/2), 0, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
         sb.draw(spideyModel.getNormalTexture(), spideyModel.getPosition().x, spideyModel.getPosition().y, 35, 35);
-//        sb.draw(buildings.getTopBuilding(), buildings.getPostopBuilding().x, buildings.getPostopBuilding().y, 80, buildings.getTopBuilding().getHeight());
-//        sb.draw(buildings.getBottomBuilding(), buildings.getPosBottomBuilding().x, buildings.getPosBottomBuilding().y, 75, buildings.getBottomBuilding().getHeight());
 
         for (ObstacleBuilding building: buildingsArray){
             sb.draw(building.getTopBuilding(), building.getPostopBuilding().x, building.getPostopBuilding().y, 80, building.getTopBuilding().getHeight());
+            sb.draw(topBuildingHitBox, building.getBoundsTop().x, building.getBoundsTop().y, building.getBoundsTop().width, building.getBoundsTop().height); // for hitbox testing
+
             sb.draw(building.getBottomBuilding(), building.getPosBottomBuilding().x, building.getPosBottomBuilding().y, 75, building.getBottomBuilding().getHeight());
+            sb.draw(bottomBuildingHitBox, building.getBoundsBottom().x, building.getBoundsBottom().y, building.getBoundsBottom().width, building.getBoundsBottom().height); // for hitbox testing
         }
+
+        sb.draw(playerHitBox, spideyModel.getBounds().x, spideyModel.getBounds().y, spideyModel.getBounds().width, spideyModel.getBounds().height);
+
         sb.end();
     }
 

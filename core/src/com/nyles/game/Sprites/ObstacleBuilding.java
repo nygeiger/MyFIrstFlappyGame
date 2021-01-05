@@ -15,7 +15,7 @@ public class ObstacleBuilding {
     private static final int LOWEST_OPENING = 120;
 
     private Texture topBuilding, bottomBuilding;
-    private Vector2 postopBuilding, posBottomBuilding;
+    private Vector2 posTopBuilding, posBottomBuilding;
     private Rectangle boundsTop, boundsBottom;
     private Random rand;
 
@@ -29,8 +29,19 @@ public class ObstacleBuilding {
         rand = new Random();
         int obstaclePosition = rand.nextInt();
 
-        postopBuilding = new Vector2(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
-        posBottomBuilding = new Vector2(x, postopBuilding.y - OBSTACLE_GAP - bottomBuilding.getHeight());
+        posTopBuilding = new Vector2(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
+        posBottomBuilding = new Vector2(x, posTopBuilding.y - OBSTACLE_GAP - bottomBuilding.getHeight());
+
+        boundsTop = new Rectangle(posTopBuilding.x, posTopBuilding.y + 30, topBuilding.getWidth(), topBuilding.getHeight());
+        boundsBottom = new Rectangle(posBottomBuilding.x, posBottomBuilding.y - 30, bottomBuilding.getWidth(), bottomBuilding.getHeight());
+    }
+
+    public Rectangle getBoundsTop() { // for hitbox testing
+        return boundsTop;
+    }
+
+    public Rectangle getBoundsBottom() { // for hitbox testing
+        return boundsBottom;
     }
 
     /**
@@ -39,8 +50,14 @@ public class ObstacleBuilding {
      * @param x
      */
     public void reposition(float x){
-        postopBuilding.set(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
-        posBottomBuilding.set(x, postopBuilding.y - OBSTACLE_GAP - bottomBuilding.getHeight());
+        posTopBuilding.set(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
+        posBottomBuilding.set(x, posTopBuilding.y - OBSTACLE_GAP - bottomBuilding.getHeight());
+        boundsTop.setPosition(posTopBuilding.x, posTopBuilding.y);
+        boundsBottom.setPosition(posBottomBuilding.x, posBottomBuilding.y);
+    }
+
+    public boolean collides(Rectangle player){
+        return player.overlaps(boundsTop) || player.overlaps(boundsBottom);
     }
 
     public Texture getTopBuilding() {
@@ -52,7 +69,7 @@ public class ObstacleBuilding {
     }
 
     public Vector2 getPostopBuilding() {
-        return postopBuilding;
+        return posTopBuilding;
     }
 
     public Vector2 getPosBottomBuilding() {
