@@ -11,7 +11,7 @@ public class ObstacleBuilding {
     public static final int OBSTACLE_WIDTH = 52;
 
     private static final int FLUCTUATION = 130;
-    private static final int OBSTACLE_GAP = 100;
+    private static final int OBSTACLE_GAP = 140;
     private static final int LOWEST_OPENING = 120;
 
     private Texture topBuilding, bottomBuilding;
@@ -32,8 +32,8 @@ public class ObstacleBuilding {
         posTopBuilding = new Vector2(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
         posBottomBuilding = new Vector2(x, posTopBuilding.y - OBSTACLE_GAP - bottomBuilding.getHeight());
 
-        boundsTop = new Rectangle(posTopBuilding.x, posTopBuilding.y + 30, topBuilding.getWidth(), topBuilding.getHeight());
-        boundsBottom = new Rectangle(posBottomBuilding.x, posBottomBuilding.y - 30, bottomBuilding.getWidth(), bottomBuilding.getHeight());
+        boundsTop = new Rectangle(posTopBuilding.x, posTopBuilding.y /*+ 30*/, topBuilding.getWidth()-topBuilding.getWidth()/2, topBuilding.getHeight());
+        boundsBottom = new Rectangle(posBottomBuilding.x, posBottomBuilding.y /*- 30*/, bottomBuilding.getWidth()-bottomBuilding.getWidth()/2, bottomBuilding.getHeight());
     }
 
     public Rectangle getBoundsTop() { // for hitbox testing

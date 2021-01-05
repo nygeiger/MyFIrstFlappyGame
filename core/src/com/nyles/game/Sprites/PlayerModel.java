@@ -27,7 +27,8 @@ public class PlayerModel {
         normalSpidey = new Texture("8BitMilesMoralesNormal.png");
         jumpingSpidey = new Texture("8BitSpiderManUp.png");
 
-        bounds = new Rectangle( position.x, position.y, normalSpidey.getWidth(), normalSpidey.getHeight());
+        System.out.println("Spidey width: " + normalSpidey.getWidth() +"\n Spidey Height: " + normalSpidey.getHeight());
+        bounds = new Rectangle( position.x, position.y, 30, 30);
     }
 
     /**

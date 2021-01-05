@@ -64,8 +64,11 @@ public class PlayState extends State{
             if (cam.position.x - (cam.viewportWidth/2) > (building.getPostopBuilding().x+ building.getTopBuilding().getWidth())){
                 building.reposition(building.getPostopBuilding().x + (ObstacleBuilding.OBSTACLE_WIDTH + SPACING) * OBSTACLE_COUNT);
             }
+            /**
+             * checks for collision between playerModel and buildings
+             */
             if (building.collides(spideyModel.getBounds())){
-                gsm.set(new PlayState(gsm));
+                gsm.set(new MenuState(gsm));
             }
         }
 
@@ -98,6 +101,10 @@ public class PlayState extends State{
 
     @Override
     public void dispose() {
-
+        background.dispose();
+        buildings.getTopBuilding().dispose();
+        buildings.getBottomBuilding().dispose();
+        spideyModel.getNormalTexture().dispose();
+        cam.setToOrtho(false, FirstFlappyGame.WIDTH, FirstFlappyGame.HEIGHT);
     }
 }
