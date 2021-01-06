@@ -128,11 +128,11 @@ public class PlayState extends State{
     public void dispose() {
         background.dispose();
         buildings.dispose();
+        ground.dispose();
+        spideyModel.dispose();
 
         for (ObstacleBuilding building: buildingsArray){
             building.dispose();
         }
-
-        spideyModel.dispose();
     }
 }
