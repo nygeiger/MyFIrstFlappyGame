@@ -3,6 +3,7 @@ package com.nyles.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.nyles.game.FirstFlappyGame;
 import com.nyles.game.Sprites.PlayerModel;
 import com.nyles.game.Sprites.ObstacleBuilding;
@@ -19,15 +20,27 @@ public class PlayState extends State{
 
     private PlayerModel spideyModel;
     private ObstacleBuilding buildings;
+
     private Texture background;
+    private Texture ground;
+
+    private Vector2 groundPos1;
+    private Vector2 groundPos2;
 
     private ArrayList<ObstacleBuilding> buildingsArray;
 
     public PlayState(GameStateManager gsm) {
         super(gsm);
-        spideyModel = new PlayerModel(50, 100);
+        spideyModel = new PlayerModel(50, 150);
         buildings = new ObstacleBuilding(100);
+
         background = new Texture("backgoundCitywithStars.png");
+        ground = new Texture ("8BitFireFloor.png");
+
+
+        groundPos1 = new Vector2(cam.position.x - cam.viewportWidth/2, 0);
+        groundPos2 = new Vector2((cam.position.x - cam.viewportWidth/2) + ground.getWidth(), 0);
+
         cam.setToOrtho(false, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
         buildingsArray = new ArrayList<ObstacleBuilding>();
 
@@ -47,6 +60,7 @@ public class PlayState extends State{
     @Override
     public void update(float dt) {
         handleInput();
+        updateGround();
         spideyModel.update(dt);
         cam.position.x = spideyModel.getPosition().x + 80;
 
@@ -58,6 +72,7 @@ public class PlayState extends State{
             if (cam.position.x - (cam.viewportWidth/2) > (building.getPostopBuilding().x+ building.getTopBuilding().getWidth())){
                 building.reposition(building.getPostopBuilding().x + (ObstacleBuilding.OBSTACLE_WIDTH + SPACING) * OBSTACLE_COUNT);
             }
+
             /**
              * checks for collision between playerModel and buildings
              */
@@ -65,9 +80,26 @@ public class PlayState extends State{
             if (building.collides(spideyModel.getBounds())){
                 gsm.set(new MenuState(gsm));
             }
+
+            if (spideyModel.getPosition().y <= ground.getHeight()){
+                gsm.set(new MenuState(gsm));
+            }
         }
 
+
         cam.update(); // must be called whenever the position of the camera is changed
+    }
+
+    private void updateGround(){
+
+        if (cam.position.x - (cam.viewportWidth/2) > (groundPos1.x + ground.getWidth())){
+            groundPos1.add(ground.getWidth()*2, 0);
+        }
+
+        if (cam.position.x - (cam.viewportWidth/2) > (groundPos2.x + ground.getWidth())){
+            groundPos2.add(ground.getWidth()*2, 0);
+        }
+
     }
 
     /**
@@ -86,6 +118,9 @@ public class PlayState extends State{
             sb.draw(building.getBottomBuilding(), building.getPosBottomBuilding().x, building.getPosBottomBuilding().y, 75, building.getBottomBuilding().getHeight());
         }
 
+        sb.draw(ground, groundPos1.x, groundPos1.y);
+        sb.draw(ground, groundPos2.x, groundPos2.y);
+
         sb.end();
     }
 
@@ -97,7 +132,6 @@ public class PlayState extends State{
         for (ObstacleBuilding building: buildingsArray){
             building.dispose();
         }
-
 
         spideyModel.dispose();
     }
