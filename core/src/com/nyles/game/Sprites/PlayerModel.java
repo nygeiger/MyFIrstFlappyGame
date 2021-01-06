@@ -18,6 +18,7 @@ public class PlayerModel {
     private Rectangle bounds; //TODO make hit-box more accurate
     private Texture normalSpidey;
     private Texture jumpingSpidey;
+    private Animation playerAnimation;
 
 
     public PlayerModel(int x, int y){
@@ -26,6 +27,7 @@ public class PlayerModel {
 
         normalSpidey = new Texture("8BitMilesMoralesNormal.png");
         jumpingSpidey = new Texture("8BitSpiderManUp.png");
+
 
         bounds = new Rectangle( position.x, position.y, 30, 30);
     }
