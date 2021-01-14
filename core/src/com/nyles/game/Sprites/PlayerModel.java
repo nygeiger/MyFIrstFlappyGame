@@ -1,12 +1,15 @@
 package com.nyles.game.Sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 import org.w3c.dom.css.Rect;
 
 public class PlayerModel {
+
+    // TODO make player model assume a different sprite texture when clicked
 
     private static final int JUMP = 72;
     private static final int GRAVITY = -15;
@@ -28,8 +31,17 @@ public class PlayerModel {
         normalSpidey = new Texture("8BitMilesMoralesNormal.png");
         jumpingSpidey = new Texture("8BitSpiderManUp.png");
 
+        /**
+         * contains images side by side represent the frames in the player animation
+         */
+        Texture texture = new Texture("8BitMilesMoralesIdleAnimation.png");
+        playerAnimation = new Animation(new TextureRegion(texture), 3, 0.35f);
 
-        bounds = new Rectangle( position.x, position.y, 30, 30);
+        //bounds = new Rectangle( position.x, position.y, 30, 30);
+        /**
+         * width must be divided by number of frames represented by texture
+         */
+        bounds = new Rectangle( x, y, 30, 30);
     }
 
     /**
@@ -40,6 +52,8 @@ public class PlayerModel {
      * @param dt seconds between current and previous frame.
      */
     public void update (float dt){
+        playerAnimation.update(dt);
+
         velocity.add(0, GRAVITY, 0);
         velocity.scl(dt);
         position.add(MOVEMENT * dt, velocity.y, 0);
@@ -72,7 +86,8 @@ public class PlayerModel {
         return position;
     }
 
-    public Texture getNormalTexture() {
-        return normalSpidey;
+    public TextureRegion getNormalTexture() {
+        //return normalSpidey;
+        return playerAnimation.getFrame();
     }
 }
