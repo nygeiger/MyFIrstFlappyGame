@@ -78,11 +78,15 @@ public class PlayState extends State{
              */
             //TODO Implementation is not optimal for scaling
             if (building.collides(spideyModel.getBounds())){
-                gsm.set(new MenuState(gsm));
+                gsm.set(new PlayState(gsm));
+                // gsm.set(new MenuState(gsm));
+                // TODO: Fix camera to reset when character dies and game state is changed to a menu state
             }
 
             if (spideyModel.getPosition().y <= ground.getHeight()){
-                gsm.set(new MenuState(gsm));
+                gsm.set(new PlayState(gsm));
+                //gsm.set(new MenuState(gsm));
+                // TODO: Fix camera to reset when character dies and game state is changed to a menu state
             }
         }
 
