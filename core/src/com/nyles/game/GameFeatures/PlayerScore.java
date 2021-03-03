@@ -28,14 +28,14 @@ public class PlayerScore {
     }
 
     public void draw(SpriteBatch sb){
-        playerScore.draw(sb, ""+count, position.x, position.y);
+        playerScore.draw(sb, toDisplay(), position.x, position.y);
     }
 
     public void update (float dt){
         position.add(MOVEMENT * dt, 0, 0);
     }
 
-    public String toDisplay(){
+    private String toDisplay(){
         return ""+count;
     }
 
