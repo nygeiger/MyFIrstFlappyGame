@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.nyles.game.FirstFlappyGame;
+import com.nyles.game.GameFeatures.PlayerScore;
 import com.nyles.game.Sprites.PlayerModel;
 import com.nyles.game.Sprites.ObstacleBuilding;
 
@@ -24,6 +25,8 @@ public class PlayState extends State{
     private Texture background;
     private Texture ground;
 
+    private PlayerScore playerScore;
+
     private Vector2 groundPos1;
     private Vector2 groundPos2;
 
@@ -37,6 +40,7 @@ public class PlayState extends State{
         background = new Texture("backgoundCitywithStars.png");
         ground = new Texture ("8BitFireFloor.png");
 
+        playerScore = new PlayerScore(FirstFlappyGame.WIDTH/2 - 70, FirstFlappyGame.HEIGHT/2 - 10);
 
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth/2, 0);
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth/2) + ground.getWidth(), 0);
@@ -62,6 +66,7 @@ public class PlayState extends State{
         handleInput();
         updateGround();
         spideyModel.update(dt);
+        playerScore.update(dt);
         cam.position.x = spideyModel.getPosition().x + 80;
 
         /**
@@ -76,18 +81,24 @@ public class PlayState extends State{
             /**
              * checks for collision between playerModel and buildings
              */
-            //TODO Implementation is not optimal for scaling
+            //XXX: Implementation is not optimal for scaling.
             if (building.collides(spideyModel.getBounds())){
                 gsm.set(new PlayState(gsm));
                 // gsm.set(new MenuState(gsm));
-                // TODO: Fix camera to reset when character dies and game state is changed to a menu state
+                // FIXME: Fix camera to reset when character dies and game state is changed to a menu state
             }
 
             if (spideyModel.getPosition().y <= ground.getHeight()){
                 gsm.set(new PlayState(gsm));
                 //gsm.set(new MenuState(gsm));
-                // TODO: Fix camera to reset when character dies and game state is changed to a menu state
+                // FIXME: Fix camera to reset when character dies and game state is changed to a menu state
             }
+
+            if( Math.abs(building.getBoundsBottom().x - spideyModel.getBounds().x) < 1){
+                playerScore.increasePlayerScore();
+                // FIXME: Score occasionally Jumps +2 instead of +1. Improve accuracy of check
+            }
+
         }
 
 
@@ -114,14 +125,17 @@ public class PlayState extends State{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
+
         sb.draw(background, cam.position.x-(cam.viewportWidth/2), 0, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
         sb.draw(spideyModel.getNormalTexture(), spideyModel.getPosition().x, spideyModel.getPosition().y, 35, 35);
+
 
         for (ObstacleBuilding building: buildingsArray){
             sb.draw(building.getTopBuilding(), building.getPostopBuilding().x, building.getPostopBuilding().y, 80, building.getTopBuilding().getHeight());
             sb.draw(building.getBottomBuilding(), building.getPosBottomBuilding().x, building.getPosBottomBuilding().y, 75, building.getBottomBuilding().getHeight());
         }
 
+        playerScore.draw(sb);
         sb.draw(ground, groundPos1.x, groundPos1.y);
         sb.draw(ground, groundPos2.x, groundPos2.y);
 
@@ -134,6 +148,7 @@ public class PlayState extends State{
         buildings.dispose();
         ground.dispose();
         spideyModel.dispose();
+        playerScore.dispose();
 
         for (ObstacleBuilding building: buildingsArray){
             building.dispose();
