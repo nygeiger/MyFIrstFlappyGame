@@ -46,8 +46,8 @@ public class PlayState extends State{
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth/2) + ground.getWidth(), 0);
 
         cam.setToOrtho(false, FirstFlappyGame.WIDTH/2, FirstFlappyGame.HEIGHT/2);
-        buildingsArray = new ArrayList<ObstacleBuilding>();
 
+        buildingsArray = new ArrayList<ObstacleBuilding>();
         for (int i = 1; i <= OBSTACLE_COUNT; i++){
             buildingsArray.add(new ObstacleBuilding(i *(SPACING + ObstacleBuilding.OBSTACLE_WIDTH)));
         }
@@ -83,15 +83,11 @@ public class PlayState extends State{
              */
             //XXX: Implementation is not optimal for scaling.
             if (building.collides(spideyModel.getBounds())){
-                gsm.set(new PlayState(gsm));
-                // gsm.set(new MenuState(gsm));
-                // FIXME: Fix camera to reset when character dies and game state is changed to a menu state
+                gsm.set(new MenuState(gsm));
             }
 
             if (spideyModel.getPosition().y <= ground.getHeight()){
-                gsm.set(new PlayState(gsm));
-                //gsm.set(new MenuState(gsm));
-                // FIXME: Fix camera to reset when character dies and game state is changed to a menu state
+                gsm.set(new MenuState(gsm));
             }
 
             if( Math.abs(building.getBoundsBottom().x - spideyModel.getBounds().x) < 1){

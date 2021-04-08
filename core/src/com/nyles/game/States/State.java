@@ -33,7 +33,7 @@ public abstract class State {
     public abstract void handleInput();
 
     /**
-     * @param dt difference in time between frames renderd
+     * @param dt difference in time between frames rendered
      */
     public abstract void update(float dt);
 

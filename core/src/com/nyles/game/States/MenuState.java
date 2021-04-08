@@ -19,6 +19,8 @@ public class MenuState extends State {
         playButton = new Texture("8BitPlayButton1.png");
 
         cam.setToOrtho(false, FirstFlappyGame.WIDTH, FirstFlappyGame.HEIGHT);
+        cam.update();
+
     }
 
     @Override
@@ -39,6 +41,7 @@ public class MenuState extends State {
      */
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0, 0, FirstFlappyGame.WIDTH, FirstFlappyGame.HEIGHT);
         sb.draw(playButton, (FirstFlappyGame.WIDTH/2)-(playButton.getWidth()/6)*2, FirstFlappyGame.HEIGHT/2, FirstFlappyGame.HEIGHT/4, FirstFlappyGame.WIDTH/4);
